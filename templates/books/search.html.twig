@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BooksController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="flex flex-wrap gap-2 lg:h-[520px] lg:w-2/3 w-full mx-auto overflow-y-scroll">
+		{% if content is defined %}
+
+			{% for book in content %}
+            
+                <div class="p-2 border rounded w-full">
+                    <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+                        <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="{{ book.volumeInfo.imageLinks.thumbnail is defined ? book.volumeInfo.imageLinks.thumbnail : 'https://placehold.co/128x167' }}">
+                        <div class="flex-grow sm:pl-8">
+                            <h2 class="title-font font-medium text-lg text-white">{{ book.volumeInfo.title is defined ?  book.volumeInfo.title : 'Untitled' }}</h2>
+                            <h3 class="text-gray-500 mb-3">
+
+                                {% if book.volumeInfo.authors is defined and book.volumeInfo.authors|length > 0 %}
+                                    {% for author in book.volumeInfo.authors %}
+                                        {{ ' - ' ~ author }}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ 'Unknown author' }}
+                                {% endif %}
+
+                            </h3>
+                            <p class="mb-4">{{ book.volumeInfo.description is defined ? book.volumeInfo.description|u.truncate(120, '...') : 'Without description' }}</p>
+                            <span class="inline-flex">
+
+                                {% if book.volumeInfo.previewLink is defined %}
+                                    <a href="{{ book.volumeInfo.previewLink }}" class="ml-2 text-gray-500 flex gap-1 items-center" traget="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+                                        </svg>
+                                        Preview
+                                    </a>
+                                {% endif %}
+
+                                {% if book.saleInfo.buyLink is defined %}
+                                    <a href="{{ book.saleInfo.buyLink }}" class="ml-2 text-gray-500 flex gap-1 items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                                        </svg>
+
+                                        {% if book.saleInfo.listPrice.amount is defined %}
+                                            {{ 'R$' ~ book.saleInfo.listPrice.amount }}
+                                        {% endif %}
+
+                                        Buy
+                                    </a>
+                                {% endif %}
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+				
+			{% else %}
+
+				<div class="flex flex-wrap gap-1 lg:w-2/3 w-full mx-auto">
+					<div class="p-2 border rounded w-full">
+						<div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
+							<img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200">
+							<div class="flex-grow sm:pl-8">
+								<h2 class="title-font font-medium text-lg text-white">Holden Caulfield</h2>
+								<h3 class="text-gray-500 mb-3">UI Developer</h3>
+								<p class="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
+								<span class="inline-flex">
+									<a class="text-gray-500">
+										<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewbox="0 0 24 24">
+											<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+										</svg>
+									</a>
+									<a class="ml-2 text-gray-500">
+										<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewbox="0 0 24 24">
+											<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+										</svg>
+									</a>
+									<a class="ml-2 text-gray-500">
+										<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewbox="0 0 24 24">
+											<path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+										</svg>
+									</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			{% endfor %}
+
+
+		{% endif %}
+	</div>
+
+{% endblock %}
